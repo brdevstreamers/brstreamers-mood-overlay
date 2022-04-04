@@ -5,4 +5,7 @@ COPY ./ /usr/app
 
 RUN npm install
 
+COPY keys.json /usr/app/keys.json
+COPY .env /usr/app/.env
+
 CMD ["npm", "start"]
