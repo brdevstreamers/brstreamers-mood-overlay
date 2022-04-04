@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon"
-
   },
   "author": "flaviojmendes",
   "license": "ISC",
@@ -18,6 +17,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
     "tslint": "^6.1.3",
     "typescript": "^4.6.3",
     "ws": "^8.5.0"
