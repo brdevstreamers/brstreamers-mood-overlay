@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Mood</title>
+   
+  </head>
+  <body>
+    <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+    <canvas id="mood"></canvas>
+    <script>
+      var opts = {
+        angle: 0.15, // The span of the gauge arc
+        lineWidth: 0.44, // The line thickness
+        radiusScale: 1, // Relative radius
+        pointer: {
+          length: 0.6, // // Relative to gauge radius
+          strokeWidth: 0.035, // The thickness
+          color: "#FF7B61", // Fill color
+        },
+        limitMax: false, // If false, max value increases automatically if value > maxValue
+        limitMin: false, // If true, the min value of the gauge will be fixed
+        colorStart: "#FF0000", // Colors
+        colorStop: "#00FF00", // just experiment with them
+        strokeColor: "#E0E0E0", // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true, // High resolution support
+        percentColors: [[0.0, "#ff0000" ], [0.50, "#f9c802"], [1.0, "#a9d70b"]]
+      };
+      var target = document.getElementById("mood"); // your canvas element
+      var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+      gauge.maxValue = 1; // set max gauge value
+      gauge.setMinValue(-0.7); // Prefer setter over gauge.minValue = 0
+      gauge.animationSpeed = 32; // set animation speed (32 is default value)
+       // set actual value
+
+
+      var ws = new WebSocket("ws://127.0.0.1:5678/"),
+        messages = document.createElement("ul");
+      
+        ws.onmessage = function (event) {
+            gauge.set(parseFloat(event.data));
+      };
+    </script>
+  </body>
+</html>
