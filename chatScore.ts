@@ -15,7 +15,7 @@ export class ChatScore {
   }
 
   async calculateChatScore(new_score: number) {
-    if (this.scoreQueue.length > 50) {
+    if (this.scoreQueue.length > 6) {
       this.scoreQueue.shift();
     }
     this.scoreQueue.push(new_score);
