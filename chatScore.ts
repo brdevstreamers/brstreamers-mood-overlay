@@ -4,6 +4,10 @@ export class ChatScore {
   score: number = 0;
   scoreQueue: number[] = [];
 
+  latestMessage: string = "";
+  regexp = /fla[0-9]{0,4}\w/gi; 
+  overlayBackground = '#000000';
+
   private constructor() {}
 
   public static getInstance(): ChatScore {
@@ -22,5 +26,14 @@ export class ChatScore {
     let scoreSum = 0;
     this.scoreQueue.forEach(a => scoreSum += a);
     this.score = scoreSum / this.scoreQueue.length;
+  }
+
+
+  public setLatestMessage(message: string) {
+    this.latestMessage = message;
+  }
+
+  public setOverlayBackground(background: string) {
+    this.overlayBackground = background;
   }
 }

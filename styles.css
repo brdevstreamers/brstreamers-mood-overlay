@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+p {
+    font-family: 'Fira Code', monospace;
+    color: #fff;
+    font-size: 13px;
+    bottom: 10px;
+    left: 29%;
+    position: absolute;
+    width: 280px;
+    max-height: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;    
+    height: 80px;
+}

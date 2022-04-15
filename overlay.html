@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Layer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <p id="message">!message {sua mensagem}</p>
+    <script>
+
+      window.onload = loadOverlayProperties();
+
+      function loadOverlayProperties() {
+        document.getElementById('message').innerHTML = localStorage.getItem('message');
+        document.body.style.background = localStorage.getItem('background');
+
+      }
+
+      var ws = new WebSocket("ws://localhost:5678/");
+
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+
+        if(localStorage.getItem('message') !== data.message){
+          localStorage.setItem('message', data.message);
+          document.getElementById('message').innerHTML = localStorage.getItem('message');
+        }
+
+        if(localStorage.getItem('background') !== data.background){
+          localStorage.setItem('background', data.background);
+          document.body.style.background = localStorage.getItem('background');
+        }
+
+      };
+
+      
+    </script>
+  </body>
+</html>

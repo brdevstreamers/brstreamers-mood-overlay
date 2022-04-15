@@ -67,6 +67,7 @@ const onReceivedMessage = async ({
   console.log(line);
 
   analyze(message);
+  processMessage(message);
 };
 
 const onClosedConnection = () => {
@@ -111,4 +112,14 @@ async function analyze(message: string) {
 
 
   console.log(ChatScore.getInstance().score);
+}
+
+const processMessage = (message:string) => {
+  if(message.startsWith('!message ')) {
+    ChatScore.getInstance().setLatestMessage(message.replace('!message ', ''));
+  }
+  if(message.startsWith('!background ')) {
+    ChatScore.getInstance().setOverlayBackground(message.replace('!background ',''));
+  }
+
 }

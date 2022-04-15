@@ -22,11 +22,14 @@ const wss = new WebSocket.Server({ server });
 let timer: Timer;
 
 wss.on("connection", (ws: WebSocket) => {
- 
   timer = setInterval(() => {
     if (ws && ws.readyState === WebSocket.OPEN) {
-      const score = ChatScore.getInstance().score;
-      ws.send(score);
+      const response = {
+        score: ChatScore.getInstance().score,
+        message: ChatScore.getInstance().latestMessage,
+        background: ChatScore.getInstance().overlayBackground,
+      };
+      ws.send(JSON.stringify(response));
     } else {
       clearInterval(timer);
     }
