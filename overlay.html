@@ -7,33 +7,42 @@
   <body>
     <p id="message">!message {sua mensagem}</p>
     <script>
-
       window.onload = loadOverlayProperties();
 
       function loadOverlayProperties() {
-        document.getElementById('message').innerHTML = localStorage.getItem('message');
-        document.body.style.background = localStorage.getItem('background');
-
+        document.getElementById("message").innerHTML =
+          localStorage.getItem("message");
+        document.body.style.background = localStorage.getItem("background");
       }
 
-      var ws = new WebSocket("ws://34.82.56.41:5678/");
+      var ws = new WebSocket("ws://localhost:5678/");
 
       ws.onmessage = function (event) {
         const data = JSON.parse(event.data);
 
-        if(localStorage.getItem('message') !== data.message){
-          localStorage.setItem('message', data.message);
-          document.getElementById('message').innerHTML = localStorage.getItem('message');
+        if (localStorage.getItem("message") !== data.message) {
+          localStorage.setItem("message", data.message);
+          document.getElementById("message").innerHTML =
+            localStorage.getItem("message");
         }
 
-        if(localStorage.getItem('background') !== data.background){
-          localStorage.setItem('background', data.background);
-          document.body.style.background = localStorage.getItem('background');
+        if (localStorage.getItem("background") !== data.background) {
+          localStorage.setItem("background", data.background);
+          document.body.style.background = localStorage.getItem("background");
         }
-
       };
 
-      
+      ws.onclose = function (event) {
+        if (event.wasClean) {
+          alert(
+            `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+          );
+        } else {
+          // e.g. server process killed or network down
+          // event.code is usually 1006 in this case
+          alert("[close] Connection died");
+        }
+      };
     </script>
   </body>
 </html>

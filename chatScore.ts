@@ -1,21 +1,22 @@
-export class ChatScore {
-  private static instance: ChatScore;
+export class BotStorage {
+  private static instance: BotStorage;
 
   score: number = 0;
   scoreQueue: number[] = [];
+  latestImageURL: string = "";
 
   latestMessage: string = "";
-  regexp = /fla[0-9]{0,4}\w/gi; 
-  overlayBackground = '#000000';
+  regexp = /fla[0-9]{0,4}\w/gi;
+  overlayBackground = "#000000";
 
   private constructor() {}
 
-  public static getInstance(): ChatScore {
-    if (!ChatScore.instance) {
-      ChatScore.instance = new ChatScore();
+  public static getInstance(): BotStorage {
+    if (!BotStorage.instance) {
+      BotStorage.instance = new BotStorage();
     }
 
-    return ChatScore.instance;
+    return BotStorage.instance;
   }
 
   async calculateChatScore(new_score: number) {
@@ -24,10 +25,9 @@ export class ChatScore {
     }
     this.scoreQueue.push(new_score);
     let scoreSum = 0;
-    this.scoreQueue.forEach(a => scoreSum += a);
+    this.scoreQueue.forEach((a) => (scoreSum += a));
     this.score = scoreSum / this.scoreQueue.length;
   }
-
 
   public setLatestMessage(message: string) {
     this.latestMessage = message;
@@ -35,5 +35,9 @@ export class ChatScore {
 
   public setOverlayBackground(background: string) {
     this.overlayBackground = background;
+  }
+
+  public setLatestImageURL(url: string) {
+    this.latestImageURL = url;
   }
 }

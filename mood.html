@@ -36,7 +36,7 @@
       gauge.animationSpeed = 32; // set animation speed (32 is default value)
       // set actual value
 
-      var ws = new WebSocket("ws://34.82.56.41:5678/"),
+      var ws = new WebSocket("ws://localhost:5678/"),
         messages = document.createElement("ul");
 
       ws.onmessage = function (event) {

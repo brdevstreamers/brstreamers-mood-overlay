@@ -1,12 +1,16 @@
 import WebSocket from "ws";
+import { ApiClient } from "twitch";
+
 import colors from "colors";
-import { ChatScore } from "./chatScore";
+import { BotStorage } from "./chatScore";
 import {
   CHANNELS_DEST,
   TWITCH_OAUTH_PASS,
   TWITCH_WEBSOCKET_URL,
   TWITCH_YOUR_USERNAME,
 } from "./config";
+import { DeepAIService } from "./service/deepAI.service";
+import { ChatGPTService } from "./service/chatGPT.service";
 
 export type CommandType = {
   client: WebSocket;
@@ -66,8 +70,8 @@ const onReceivedMessage = async ({
   )} ${colors.green(`${username}:`)} ${colors.yellow(`${message}`)}`;
   console.log(line);
 
-  analyze(message);
-  processMessage(message);
+  // analyze(message);
+  processMessage(message, client, channel, username);
 };
 
 const onClosedConnection = () => {
@@ -108,18 +112,39 @@ async function analyze(message: string) {
 
   const sentiment = result.documentSentiment;
 
-  ChatScore.getInstance().calculateChatScore(sentiment.score);
+  BotStorage.getInstance().calculateChatScore(sentiment.score);
 
-
-  console.log(ChatScore.getInstance().score);
+  console.log(BotStorage.getInstance().score);
 }
 
-const processMessage = (message:string) => {
-  if(message.startsWith('!message ')) {
-    ChatScore.getInstance().setLatestMessage(message.replace('!message ', ''));
-  }
-  if(message.startsWith('!background ')) {
-    ChatScore.getInstance().setOverlayBackground(message.replace('!background ',''));
+const processMessage = (
+  message: string,
+  client: WebSocket,
+  channel: string,
+  username: string
+) => {
+  if (message.toLowerCase().startsWith("!image ")) {
+    (async function () {
+      const responseURL = await DeepAIService.generate(
+        message.replace("!image ", "")
+      );
+      client.send(
+        `PRIVMSG #${channel} :@${username}, aqui está sua imagem: ${responseURL}`
+      );
+    })();
   }
 
-}
+  if (message.toLowerCase().startsWith("!chatgpt ")) {
+    if (message.replace("!chatgpt ", "").length > 5) {
+      (async function () {
+        const response = await ChatGPTService.generate(
+          message.replace("!chatgpt ", "")
+        );
+        client.send(`PRIVMSG #${channel} :@${username}: ${response}`);
+      })();
+    } else {
+      client.send(`PRIVMSG #${channel} :@${username}, me dê uma pergunta que lhe dou uma resposta.`);
+
+    }
+  }
+};

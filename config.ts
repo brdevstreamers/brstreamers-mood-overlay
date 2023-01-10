@@ -19,6 +19,14 @@ export const SPAM_CHECK_SECONDS = 5;
 /*
   CHANNELS TO WATCH
 */
-export const CHANNELS_DEST: Array<string> = [
-  "flaviojmendes"
-];
+export const CHANNELS_DEST: Array<string> = ["flaviojmendes"];
+
+/*
+  DEEP AI
+*/
+export const DEEPAI_API_KEY = process.env.DEEPAI_API_KEY || "";
+
+/* 
+  CHAT GPT
+*/
+export const OPENAPI_KEY = process.env.OPENAPI_KEY || "";
