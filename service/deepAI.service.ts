@@ -4,7 +4,8 @@ import { DEEPAI_API_KEY } from "../config";
 export class DeepAIService {
   static async generate(input: string) {
     deepai.setApiKey(DEEPAI_API_KEY);
-
+    console.log(DEEPAI_API_KEY);
+    console.log(input);
     var resp = await deepai.callStandardApi("text2img", {
       text: input,
     });
