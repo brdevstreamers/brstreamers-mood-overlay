@@ -1,5 +1,5 @@
-
 import { Configuration, OpenAIApi } from "openai";
+import { BotStorage } from "../chatScore";
 import { OPENAPI_KEY } from "../config";
 
 export class ChatGPTService {
@@ -8,7 +8,7 @@ export class ChatGPTService {
       apiKey: OPENAPI_KEY,
     });
     const openai = new OpenAIApi(configuration);
-    
+
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: input,
@@ -18,7 +18,10 @@ export class ChatGPTService {
       frequency_penalty: 1,
       presence_penalty: 1,
     });
-
-    return response.data.choices[0].text
+    BotStorage.getInstance().setLatestQuestion({
+      question: input,
+      answer: response.data.choices[0].text as string,
+    });
+    return response.data.choices[0].text;
   }
 }

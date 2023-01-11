@@ -123,10 +123,10 @@ const processMessage = (
   channel: string,
   username: string
 ) => {
-  if (message.toLowerCase().startsWith("!image ")) {
+  if (message.toLowerCase().startsWith("!img ")) {
     (async function () {
       const responseURL = await DeepAIService.generate(
-        message.replace("!image ", "")
+        message.replace("!img ", "")
       );
       client.send(
         `PRIVMSG #${channel} :@${username}, aqui está sua imagem: ${responseURL}`
@@ -134,11 +134,11 @@ const processMessage = (
     })();
   }
 
-  if (message.toLowerCase().startsWith("!chatgpt ")) {
-    if (message.replace("!chatgpt ", "").length > 5) {
+  if (message.toLowerCase().startsWith("!ask ")) {
+    if (message.replace("!ask ", "").length > 5) {
       (async function () {
         const response = await ChatGPTService.generate(
-          message.replace("!chatgpt ", "")
+          message.replace("!ask ", "")
         );
         client.send(`PRIVMSG #${channel} :@${username}: ${response}`);
       })();

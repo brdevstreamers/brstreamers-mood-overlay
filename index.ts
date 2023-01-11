@@ -22,40 +22,19 @@ app.get("/image", (req, res) => {
   res.send(BotStorage.getInstance().latestImageURL);
 });
 
+app.get("/question", (req, res) => {
+  res.send(BotStorage.getInstance().latestQuestion);
+});
+
+app.get("/background", (req, res) => {
+  res.send(BotStorage.getInstance().overlayBackground);
+});
+
+app.get("/message", (req, res) => {
+  res.send(BotStorage.getInstance().latestMessage);
+});
+
+
 app.listen(8000, () => {
   console.log(`Example app listening on port 8000`);
 });
-
-// initialize the WebSocket server instance
-// const wss = new WebSocketServer({ server });
-
-// let timer: Timer;
-
-// wss.on("connection", (ws: WebSocket) => {
-//   console.log("Connected")
-//   timer = setInterval(() => {
-//     if (ws && ws.readyState === WebSocket.OPEN) {
-//       const response = {
-//         score: BotStorage.getInstance().score,
-//         message: BotStorage.getInstance().latestMessage,
-//         background: BotStorage.getInstance().overlayBackground,
-//       };
-//       ws.send(JSON.stringify(response));
-//     } else {
-//       clearInterval(timer);
-//     }
-//   }, 1000); // ~ 256 Hz
-// });
-
-// wss.on('close', () => {
-//   // clearTimeout(timerTimeout);
-//   console.error('Websocket connection closed. Reconnecting in %f seconds ...', 3);
-//   // setTimeout(() => connect(address, protocols, options), timeout * 1000);
-// });
-
-// // start our server
-// server.listen(process.env.PORT || 5678, () => {
-//   console.log(
-//     `Server started on port ${(server.address() as AddressInfo).port} :)`
-//   );
-// });

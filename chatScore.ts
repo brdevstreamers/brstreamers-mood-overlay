@@ -1,9 +1,15 @@
+type ChatGPTQuestion = {
+  question: string;
+  answer: string;
+};
+
 export class BotStorage {
   private static instance: BotStorage;
 
   score: number = 0;
   scoreQueue: number[] = [];
   latestImageURL: string = "";
+  latestQuestion: ChatGPTQuestion = { question: "", answer: "" };
 
   latestMessage: string = "";
   regexp = /fla[0-9]{0,4}\w/gi;
@@ -39,5 +45,9 @@ export class BotStorage {
 
   public setLatestImageURL(url: string) {
     this.latestImageURL = url;
+  }
+
+  public setLatestQuestion(chatGPTQuestion: ChatGPTQuestion) {
+    this.latestQuestion = chatGPTQuestion;
   }
 }
