@@ -123,6 +123,18 @@ const processMessage = (
   channel: string,
   username: string
 ) => {
+  if (message.toLowerCase().startsWith("!background ")) {
+    BotStorage.getInstance().setOverlayBackground(
+      message.replace("!background ", "")
+    );
+  }
+
+  if (message.toLowerCase().startsWith("!message ")) {
+    BotStorage.getInstance().setLatestMessage(
+      message.replace("!message ", "")
+    );
+  }
+
   if (message.toLowerCase().startsWith("!img ")) {
     (async function () {
       const responseURL = await DeepAIService.generate(
@@ -143,8 +155,9 @@ const processMessage = (
         client.send(`PRIVMSG #${channel} :@${username}: ${response}`);
       })();
     } else {
-      client.send(`PRIVMSG #${channel} :@${username}, me dê uma pergunta que lhe dou uma resposta.`);
-
+      client.send(
+        `PRIVMSG #${channel} :@${username}, me dê uma pergunta que lhe dou uma resposta.`
+      );
     }
   }
 };
