@@ -11,15 +11,21 @@ export class DeepAIService {
     const configuration = new Configuration({
       apiKey: OPENAPI_KEY,
     });
-    
-    const openai = new OpenAIApi(configuration);
 
-    const response = await openai.createImage({
-      prompt: input,
-      n: 1,
-      size: "1024x1024",
-    });
-    BotStorage.getInstance().setLatestImageURL(response.data.data[0].url || '')
-    return response.data.data[0].url
+    const openai = new OpenAIApi(configuration);
+    try {
+      const response = await openai.createImage({
+        prompt: input,
+        n: 1,
+        size: "1024x1024",
+      });
+      BotStorage.getInstance().setLatestImageURL(
+        response.data.data[0].url || ""
+      );
+      return response.data.data[0].url;
+    } catch (e) {
+      return "OOpss.. algo deu errado."
+      console.error(e);
+    }
   }
 }
