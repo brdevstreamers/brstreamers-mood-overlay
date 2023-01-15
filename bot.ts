@@ -130,9 +130,7 @@ const processMessage = (
   }
 
   if (message.toLowerCase().startsWith("!message ")) {
-    BotStorage.getInstance().setLatestMessage(
-      message.replace("!message ", "")
-    );
+    BotStorage.getInstance().setLatestMessage(message.replace("!message ", ""));
   }
 
   if (message.toLowerCase().startsWith("!img ")) {
@@ -140,8 +138,9 @@ const processMessage = (
       const responseURL = await DeepAIService.generate(
         message.replace("!img ", "")
       );
+
       client.send(
-        `PRIVMSG #${channel} :@${username}, aqui está sua imagem: ${responseURL}`
+        `PRIVMSG #${channel} :@${username}: ${responseURL}`
       );
     })();
   }

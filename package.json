@@ -24,6 +24,7 @@
     "deepai": "^1.0.21",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "link-shortener": "^1.2.1",
     "nodemon": "^2.0.15",
     "openai": "^3.1.0",
     "puppeteer": "^19.5.0",
