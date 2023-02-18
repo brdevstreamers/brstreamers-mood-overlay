@@ -30,3 +30,9 @@ export const DEEPAI_API_KEY = process.env.DEEPAI_API_KEY || "";
   CHAT GPT
 */
 export const OPENAPI_KEY = process.env.OPENAPI_KEY || "";
+
+
+/* 
+  CHAT GPT
+*/
+export const REPLICATE_KEY = process.env.REPLICATE_KEY || "";

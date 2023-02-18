@@ -17,7 +17,7 @@ export class DeepAIService {
       const response = await openai.createImage({
         prompt: input,
         n: 1,
-        size: "1024x1024",
+        size: "512x512",
       });
       BotStorage.getInstance().setLatestImageURL(
         response.data.data[0].url || ""

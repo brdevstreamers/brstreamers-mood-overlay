@@ -34,6 +34,9 @@ app.get("/message", (req, res) => {
   res.send(BotStorage.getInstance().latestMessage);
 });
 
+app.get("/tasks", (req, res) => {
+  res.send(BotStorage.getInstance().tasks);
+});
 
 app.listen(8000, () => {
   console.log(`Example app listening on port 8000`);

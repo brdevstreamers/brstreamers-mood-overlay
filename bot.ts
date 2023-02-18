@@ -11,6 +11,8 @@ import {
 } from "./config";
 import { DeepAIService } from "./service/deepAI.service";
 import { ChatGPTService } from "./service/chatGPT.service";
+import { ReplicateService } from "./service/replicate.service";
+import { TaskService } from "./service/task.service";
 
 export type CommandType = {
   client: WebSocket;
@@ -138,9 +140,8 @@ const processMessage = (
       const responseURL = await DeepAIService.generate(
         message.replace("!img ", "")
       );
-
       client.send(
-        `PRIVMSG #${channel} :@${username}: ${responseURL}`
+        `PRIVMSG #${channel} :@${username}, aqui está sua imagem: ${responseURL}`
       );
     })();
   }
@@ -158,5 +159,30 @@ const processMessage = (
         `PRIVMSG #${channel} :@${username}, me dê uma pergunta que lhe dou uma resposta.`
       );
     }
+  }
+
+  if (
+    message.toLowerCase().startsWith("!task ") ||
+    message.toLowerCase().startsWith("!t ")
+  ) {
+    const task = message.replace("!task ", "").replace("!t ", "");
+    if (task.length > 3) {
+      (async function () {
+        const response = await TaskService.setTask(username, task);
+        client.send(`PRIVMSG #${channel} :@${username} começou ${task}`);
+      })();
+    }
+  }
+
+  if (
+    message.toLowerCase().startsWith("!rtask") ||
+    message.toLowerCase().startsWith("!rt")
+  ) {
+    (async function () {
+      const task = await TaskService.removeTask(username);
+      if (task) {
+        client.send(`PRIVMSG #${channel} :@${username} terminou ${task}`);
+      }
+    })();
   }
 };
